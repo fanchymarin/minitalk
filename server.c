@@ -6,20 +6,21 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 16:27:11 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/25 14:51:31 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/04/26 00:26:52 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
 
-void	bin_to_char(int signum)
+void	bin_to_char(int signum, siginfo_t *info,
+void *ucontext __attribute__((unused)))
 {
 	static char	c = 0;
 	static int	i = 8;
 
-	write(1, "*", 1);
-	if (signum == SIGUSR1)
+	ucontext = info;
+	kill(info->si_pid, SIGUSR1);
+	if (signum == 10)
 		c = (c ^ 1);
 	if (i != 1)
 		c <<= 1;
@@ -33,14 +34,19 @@ void	bin_to_char(int signum)
 
 int	main(void)
 {
-	//Tengo que cambiar el printf
-	printf("Server up and running. PID: %d\n", getpid());
-	signal(SIGUSR1, bin_to_char);
-	signal(SIGUSR2, bin_to_char);
-	while(1)
+	struct sigaction	act;
+
+	ft_putstr_fd("Server up and running. PID: ", 1);
+	ft_putnbr_fd(getpid(), 1);
+	write(1, "\n", 1);
+	act.sa_sigaction = &bin_to_char;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = SA_SIGINFO;
+	while (1)
 	{
-		sleep(30);
-		printf("...\n");
+		sigaction(SIGUSR1, &act, 0);
+		sigaction(SIGUSR2, &act, 0);
+		pause();
 	}
 	return (0);
 }

@@ -6,11 +6,11 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:12:58 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/24 17:35:27 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/04/26 00:40:15 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h" 
+#include "minitalk.h"
 
 void	ft_putnbr_fd(int n, int fd)
 {
