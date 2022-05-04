@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:12:58 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/26 00:40:15 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/04 14:45:28 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,14 @@ int	ft_atoi(const char *str)
 		++str;
 	}
 	return (num * neg);
+}
+
+void	error_handling(int error)
+{
+	if (error == 1)
+		ft_putstr_fd("Usage: ./client [PID] [Message].\n", 1);
+	else if (error == 2)
+		ft_putstr_fd("Signal not established.\n", 1);
+	else if (error == 3)
+		ft_putstr_fd("Signal not sended. Check PID.\n", 1);
 }

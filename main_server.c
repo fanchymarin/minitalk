@@ -6,13 +6,13 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 16:27:11 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/05/03 19:08:02 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/04 14:41:50 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	bin_to_char(int signum, siginfo_t *info __attribute__((unused)), //QUITA
+void	bin_to_char(int signum, siginfo_t *info,
 void *ucontext __attribute__((unused)))
 {
 	static char	c = 0;
@@ -28,7 +28,7 @@ void *ucontext __attribute__((unused)))
 		c = 0;
 		i = 8;
 	}
-//	kill(info->si_pid, SIGUSR1);
+	kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -41,11 +41,12 @@ int	main(void)
 	act.sa_sigaction = &bin_to_char;
 	sigemptyset(&act.sa_mask);
 	act.sa_flags = SA_SIGINFO;
-	while (1)
+	if (sigaction(SIGUSR1, &act, 0) || sigaction(SIGUSR2, &act, 0))
 	{
-		sigaction(SIGUSR1, &act, 0);
-		sigaction(SIGUSR2, &act, 0);
-		pause();
+		error_handling(2);
+		return (-1);
 	}
+	while (1)
+		pause();
 	return (0);
 }
