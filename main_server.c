@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 19:50:51 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/05/05 16:49:28 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:42:31 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,18 @@ void *ucontext __attribute__((unused)))
 	kill(info->si_pid, SIGUSR1);
 }
 
+void	print_message(void)
+{
+	ft_putstr_fd("Server up and running. PID: ", 1);
+	ft_putnbr_fd(getpid(), 1);
+	write(1, "\n", 1);
+}
+
 int	main(void)
 {
 	struct sigaction	act;
 
-	ft_putstr_fd("Server up and running. PID: ", 1);
-	ft_putnbr_fd(getpid(), 1);
-	write(1, "\n", 1);
+	print_message();
 	act.sa_sigaction = &bin_to_char;
 	sigemptyset(&act.sa_mask);
 	sigaddset(&act.sa_mask, SIGUSR1);
