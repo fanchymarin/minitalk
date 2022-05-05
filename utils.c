@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:12:58 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/05/04 14:45:28 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:18:11 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,14 @@ void	error_handling(int error)
 		ft_putstr_fd("Signal not established.\n", 1);
 	else if (error == 3)
 		ft_putstr_fd("Signal not sended. Check PID.\n", 1);
+}
+
+size_t	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }

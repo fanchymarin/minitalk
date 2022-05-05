@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 19:50:51 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/05/04 19:50:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:29:51 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ int	main(void)
 	write(1, "\n", 1);
 	act.sa_sigaction = &bin_to_char;
 	sigemptyset(&act.sa_mask);
+	sigaddset(&act.sa_mask, SIGUSR1);
+	sigaddset(&act.sa_mask, SIGUSR2);
 	act.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGUSR1, &act, 0) || sigaction(SIGUSR2, &act, 0))
 	{
 		error_handling(2);
-		return (-1);
+		exit(1);
 	}
 	while (1)
 		pause();

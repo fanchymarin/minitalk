@@ -6,26 +6,21 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 19:49:55 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/05/04 19:50:34 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:31:19 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+int	g_count = 0;
+
 void	bit_received(int signum __attribute__((unused)))
 {
-	static int	i = 8;
-
-	ft_putstr_fd("[=]", 1);
-	if (!--i)
-	{
-		ft_putstr_fd(" Byte received\n", 1);
-		i = 8;
-	}
-	usleep(300);
+	g_count++;
+	usleep(100);
 }
 
-int	char_to_bin(char c, int pid)
+void	char_to_bin(char c, int pid)
 {
 	int	i;
 
@@ -37,7 +32,7 @@ int	char_to_bin(char c, int pid)
 			if (kill(pid, SIGUSR1))
 			{
 				error_handling(3);
-				return (-1);
+				exit(1);
 			}
 		}
 		else
@@ -45,13 +40,20 @@ int	char_to_bin(char c, int pid)
 			if (kill(pid, SIGUSR2))
 			{
 				error_handling(3);
-				return (-1);
+				exit(1);
 			}
 		}
 		c <<= 1;
-		usleep(300);
+		usleep(500);
 	}
-	return (0);
+}
+
+void	print_message(int total)
+{
+	ft_putnbr_fd(g_count, 1);
+	ft_putstr_fd("/", 1);
+	ft_putnbr_fd(total, 1);
+	ft_putstr_fd(" bits sended.\n", 1);
 }
 
 int	main(int argc, char **argv)
@@ -63,7 +65,7 @@ int	main(int argc, char **argv)
 	if (argc != 3)
 	{
 		error_handling(1);
-		return (-1);
+		exit(1);
 	}
 	rec.sa_handler = &bit_received;
 	sigemptyset(&rec.sa_mask);
@@ -71,12 +73,12 @@ int	main(int argc, char **argv)
 	if (sigaction(SIGUSR1, &rec, 0))
 	{
 		error_handling(2);
-		return (-1);
+		exit(1);
 	}
 	pid = ft_atoi(argv[1]);
 	i = 0;
 	while (argv[2][i])
-		if (char_to_bin(argv[2][i++], pid))
-			return (-1);
+		char_to_bin(argv[2][i++], pid);
+	print_message(ft_strlen(argv[2]) * 8);
 	return (0);
 }
