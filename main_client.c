@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 19:49:55 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/05/05 16:31:19 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:49:04 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,12 @@ void	char_to_bin(char c, int pid)
 		if (c & 256)
 		{
 			if (kill(pid, SIGUSR1))
-			{
 				error_handling(3);
-				exit(1);
-			}
 		}
 		else
 		{
 			if (kill(pid, SIGUSR2))
-			{
 				error_handling(3);
-				exit(1);
-			}
 		}
 		c <<= 1;
 		usleep(500);
@@ -63,18 +57,12 @@ int	main(int argc, char **argv)
 	struct sigaction	rec;
 
 	if (argc != 3)
-	{
 		error_handling(1);
-		exit(1);
-	}
 	rec.sa_handler = &bit_received;
 	sigemptyset(&rec.sa_mask);
 	rec.sa_flags = 0;
 	if (sigaction(SIGUSR1, &rec, 0))
-	{
 		error_handling(2);
-		exit(1);
-	}
 	pid = ft_atoi(argv[1]);
 	i = 0;
 	while (argv[2][i])

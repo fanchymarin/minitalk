@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 19:50:51 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/05/05 16:29:51 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:49:28 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ int	main(void)
 	sigaddset(&act.sa_mask, SIGUSR2);
 	act.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGUSR1, &act, 0) || sigaction(SIGUSR2, &act, 0))
-	{
 		error_handling(2);
-		exit(1);
-	}
 	while (1)
 		pause();
 	return (0);
