@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 19:49:55 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/05/05 16:49:04 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:23:37 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 		error_handling(1);
+	if (!*argv[1])
+		error_handling(4);
 	rec.sa_handler = &bit_received;
 	sigemptyset(&rec.sa_mask);
 	rec.sa_flags = 0;
